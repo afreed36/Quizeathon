@@ -235,7 +235,7 @@ function AppContent() {
         className="text-center mb-12"
       >
         <h1 className={`text-3xl font-light ${theme.colors.primary} mb-1 tracking-wider`}>THE VAULT</h1>
-        <p className={`${theme.colors.muted} text-sm`}>Grandmaster's Quiz Arena</p>
+        <p className={`${theme.colors.muted} text-sm`}>Quizathon-QEA-Quiz Arena</p>
         {!serverOnline && (
           <p className="text-xs mt-2 text-yellow-500">Offline mode: using local data snapshot</p>
         )}
