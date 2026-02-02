@@ -1,0 +1,10 @@
+{
+  "short_name": "Vault",
+  "name": "The Vault: Grandmaster’s Quiz Arena",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "description": "Leaderboard and analytics for quiz arena.",
+  "icons": []
+}
