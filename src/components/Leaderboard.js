@@ -34,7 +34,12 @@ const Leaderboard = ({ data, hostMode, updateData, theme, serverOnline, refreshD
     if (hostMode || isEditingScores) {
       setSortedTeams(teamsWithAverages);
     } else {
-      setSortedTeams(teamsWithAverages.sort((a, b) => b.average - a.average));
+      // Sort primarily by average (desc), then by total score (desc), then by team name
+      setSortedTeams(teamsWithAverages.sort((a, b) => {
+        if (b.average !== a.average) return b.average - a.average;
+        if ((b.totalScore || 0) !== (a.totalScore || 0)) return (b.totalScore || 0) - (a.totalScore || 0);
+        return String(a.name || '').localeCompare(String(b.name || ''));
+      }));
     }
   }, [data, hostMode, isEditingScores]);
 
