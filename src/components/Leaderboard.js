@@ -6,6 +6,8 @@ import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import TeamAccordion from './TeamAccordion';
 import HostControls from './HostControls';
 import teamRoundOverrides from '../data/teamRoundOverrides';
+// Configurable API base (use REACT_APP_API_URL in deployed environments)
+const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:3001';
 
 const Leaderboard = ({ data, hostMode, updateData, theme, serverOnline, refreshData }) => {
   const [expandedTeamId, setExpandedTeamId] = useState(null);
@@ -90,7 +92,9 @@ const Leaderboard = ({ data, hostMode, updateData, theme, serverOnline, refreshD
     return '-';
   };
 
-  const updateScore = async (teamId, roundId, newScore) => {
+  // skipRefresh: when true, do not call `refreshData()` after the write.
+  // This is used by batch Save Changes to avoid multiple refreshes.
+  const updateScore = async (teamId, roundId, newScore, skipRefresh = false) => {
     try {
       // Mark as editing to avoid live re-sorting while admin updates values
       setIsEditingScores(true);
@@ -123,7 +127,7 @@ const Leaderboard = ({ data, hostMode, updateData, theme, serverOnline, refreshD
       if (existingScores.length > 0) {
         // Update all member scores for this round to the same value
         await Promise.all(existingScores.map(score => 
-          axios.patch(`http://localhost:3001/scores/${score.id}`, { score: parseInt(newScore) })
+          axios.patch(`${API_BASE}/scores/${score.id}`, { score: parseInt(newScore) })
         ));
         updateData({
           ...data,
@@ -134,20 +138,20 @@ const Leaderboard = ({ data, hostMode, updateData, theme, serverOnline, refreshD
           )
         });
         // Refresh authoritative data from server so other views reflect changes
-        if (serverOnline && typeof refreshData === 'function') {
+        if (!skipRefresh && serverOnline && typeof refreshData === 'function') {
           try { await refreshData(); } catch (e) { console.warn('refreshData failed', e); }
         }
       } else {
         // Create new scores for each team member
         const newScores = await Promise.all(teamMemberIds.map(memberId =>
-          axios.post('http://localhost:3001/scores', {
+          axios.post(`${API_BASE}/scores`, {
             memberId,
             roundId,
             score: parseInt(newScore)
           })
         ));
         updateData({ ...data, scores: [...data.scores, ...newScores.map(res => res.data)] });
-        if (serverOnline && typeof refreshData === 'function') {
+        if (!skipRefresh && serverOnline && typeof refreshData === 'function') {
           try { await refreshData(); } catch (e) { console.warn('refreshData failed', e); }
         }
       }
@@ -167,7 +171,7 @@ const Leaderboard = ({ data, hostMode, updateData, theme, serverOnline, refreshD
         toast('Team added locally (server offline)', { icon: '⚠️' });
         return;
       }
-      const res = await axios.post('http://localhost:3001/teams', newTeam);
+  const res = await axios.post(`${API_BASE}/teams`, newTeam);
       updateData({ ...data, teams: [...data.teams, res.data] });
       toast.success(`Team "${teamName}" added successfully`);
     } catch (error) {
@@ -190,13 +194,13 @@ const Leaderboard = ({ data, hostMode, updateData, theme, serverOnline, refreshD
         toast('Quiz added locally (server offline)', { icon: '⚠️' });
         return;
       }
-      const res = await axios.post('http://localhost:3001/quizzes', newQuiz);
-      const newRound = { name: 'Round 1', quizId: res.data.id };
-      await axios.post('http://localhost:3001/rounds', newRound);
+  const res = await axios.post(`${API_BASE}/quizzes`, newQuiz);
+  const newRound = { name: 'Round 1', quizId: res.data.id };
+  await axios.post(`${API_BASE}/rounds`, newRound);
       // Refresh data
       const [quizzesRes, roundsRes] = await Promise.all([
-        axios.get('http://localhost:3001/quizzes'),
-        axios.get('http://localhost:3001/rounds'),
+        axios.get(`${API_BASE}/quizzes`),
+        axios.get(`${API_BASE}/rounds`),
       ]);
       updateData({ ...data, quizzes: quizzesRes.data, rounds: roundsRes.data });
       toast.success(`Quiz "${quizName}" added successfully`);
@@ -213,7 +217,7 @@ const Leaderboard = ({ data, hostMode, updateData, theme, serverOnline, refreshD
         toast('Day added locally (server offline)', { icon: '⚠️' });
         return;
       }
-      const res = await axios.post('http://localhost:3001/days', { name: dayName, date: dayDate });
+  const res = await axios.post(`${API_BASE}/days`, { name: dayName, date: dayDate });
       updateData({ ...data, days: [...data.days, res.data] });
       toast.success(`Day "${dayName}" added successfully`);
     } catch (error) {
@@ -246,13 +250,13 @@ const Leaderboard = ({ data, hostMode, updateData, theme, serverOnline, refreshD
       console.log('Sending payload:', payload);
       
       // Resolve actual resource via filter (handles id type issues)
-      const { data: dayMatch } = await axios.get(`http://localhost:3001/days?id=${dayId}`);
+  const { data: dayMatch } = await axios.get(`${API_BASE}/days?id=${dayId}`);
       const resource = Array.isArray(dayMatch) && dayMatch.length ? dayMatch[0] : null;
       if (!resource) {
         throw new Error('Day not found');
       }
       // Use PUT with full resource body
-      await axios.put(`http://localhost:3001/days/${resource.id}`, { id: resource.id, name: newName, date: newDate || '' });
+  await axios.put(`${API_BASE}/days/${resource.id}`, { id: resource.id, name: newName, date: newDate || '' });
       
       updateData({
         ...data,
@@ -288,11 +292,11 @@ const Leaderboard = ({ data, hostMode, updateData, theme, serverOnline, refreshD
         toast('Day deleted locally (server offline)', { icon: '⚠️' });
         return;
       }
-      await Promise.all(quizzesToDelete.map(q => axios.delete(`http://localhost:3001/quizzes/${q.id}`)));
-      await Promise.all(scoresToDelete.map(s => axios.delete(`http://localhost:3001/scores/${s.id}`)));
-      await Promise.all(roundsToDelete.map(r => axios.delete(`http://localhost:3001/rounds/${r.id}`)));
-      // Delete day
-      await axios.delete(`http://localhost:3001/days/${dayId}`);
+  await Promise.all(quizzesToDelete.map(q => axios.delete(`${API_BASE}/quizzes/${q.id}`)));
+  await Promise.all(scoresToDelete.map(s => axios.delete(`${API_BASE}/scores/${s.id}`)));
+  await Promise.all(roundsToDelete.map(r => axios.delete(`${API_BASE}/rounds/${r.id}`)));
+  // Delete day
+  await axios.delete(`${API_BASE}/days/${dayId}`);
       
       updateData({
         ...data,
@@ -320,7 +324,7 @@ const Leaderboard = ({ data, hostMode, updateData, theme, serverOnline, refreshD
         toast('Quiz name saved locally (server offline)', { icon: '⚠️' });
         return;
       }
-      await axios.put(`http://localhost:3001/quizzes/${quizId}`, { id: quizId, name: newName, dayId: existingQuiz.dayId });
+  await axios.put(`${API_BASE}/quizzes/${quizId}`, { id: quizId, name: newName, dayId: existingQuiz.dayId });
       updateData({
         ...data,
         quizzes: data.quizzes.map(quiz => quiz.id === quizId ? { ...quiz, name: newName } : quiz)
@@ -349,14 +353,14 @@ const Leaderboard = ({ data, hostMode, updateData, theme, serverOnline, refreshD
         toast('Quiz deleted locally (server offline)', { icon: '⚠️' });
         return;
       }
-      await Promise.all(roundsToDelete.map(r => axios.delete(`http://localhost:3001/rounds/${r.id}`)));
+  await Promise.all(roundsToDelete.map(r => axios.delete(`${API_BASE}/rounds/${r.id}`)));
       
       // Delete associated scores
       const scoresToDelete = data.scores.filter(s => roundsToDelete.some(r => r.id === s.roundId));
-      await Promise.all(scoresToDelete.map(s => axios.delete(`http://localhost:3001/scores/${s.id}`)));
+  await Promise.all(scoresToDelete.map(s => axios.delete(`${API_BASE}/scores/${s.id}`)));
       
       // Delete quiz
-      await axios.delete(`http://localhost:3001/quizzes/${quizId}`);
+  await axios.delete(`${API_BASE}/quizzes/${quizId}`);
       
       updateData({
         ...data,
@@ -383,7 +387,7 @@ const Leaderboard = ({ data, hostMode, updateData, theme, serverOnline, refreshD
         toast('Team name saved locally (server offline)', { icon: '⚠️' });
         return;
       }
-      await axios.put(`http://localhost:3001/teams/${teamId}`, { id: teamId, name: newName, teammates: existingTeam.teammates });
+  await axios.put(`${API_BASE}/teams/${teamId}`, { id: teamId, name: newName, teammates: existingTeam.teammates });
       updateData({
         ...data,
         teams: data.teams.map(team => team.id === teamId ? { ...team, name: newName } : team)
@@ -409,9 +413,9 @@ const Leaderboard = ({ data, hostMode, updateData, theme, serverOnline, refreshD
         toast('Team deleted locally (server offline)', { icon: '⚠️' });
         return;
       }
-      await axios.delete(`http://localhost:3001/teams/${teamId}`);
+  await axios.delete(`${API_BASE}/teams/${teamId}`);
       const scoresToDelete = data.scores.filter(s => teamMemberIds.includes(s.memberId));
-      await Promise.all(scoresToDelete.map(s => axios.delete(`http://localhost:3001/scores/${s.id}`)));
+  await Promise.all(scoresToDelete.map(s => axios.delete(`${API_BASE}/scores/${s.id}`)));
       updateData({
         ...data,
         teams: data.teams.filter(team => team.id !== teamId),
@@ -433,11 +437,17 @@ const Leaderboard = ({ data, hostMode, updateData, theme, serverOnline, refreshD
             <button
               onClick={async () => {
                 // Apply all pending changes
-                const promises = Object.entries(editingValues).map(async ([key, value]) => {
+                const entries = Object.entries(editingValues);
+                const promises = entries.map(async ([key, value]) => {
                   const [teamId, roundId] = key.split('-');
-                  await updateScore(teamId, roundId, value);
+                  // skipRefresh=true to batch server writes; we'll refresh once below
+                  await updateScore(teamId, roundId, value, true);
                 });
                 await Promise.all(promises);
+                // After all writes, refresh authoritative data once so other clients see updates
+                if (serverOnline && typeof refreshData === 'function') {
+                  try { await refreshData(); } catch (e) { console.warn('refreshData failed', e); }
+                }
                 setEditingValues({});
                 setIsEditingScores(false);
                 toast.success('Changes saved. Sorting applied.');

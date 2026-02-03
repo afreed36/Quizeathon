@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
+const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:3001';
 
 const TeamAccordion = ({ team, hostMode, updateData, theme }) => {
   const [showEditModal, setShowEditModal] = useState(false);
@@ -25,7 +26,7 @@ const TeamAccordion = ({ team, hostMode, updateData, theme }) => {
 
   const saveMemberEdit = async () => {
     try {
-      await axios.patch(`http://localhost:3001/teams/${team.id}`, {
+  await axios.patch(`${API_BASE}/teams/${team.id}`, {
         ...team,
         teammates: team.teammates.map(m =>
           m.id === editingMember.id
@@ -34,7 +35,7 @@ const TeamAccordion = ({ team, hostMode, updateData, theme }) => {
         )
       });
       // Refresh data
-      const teamsRes = await axios.get('http://localhost:3001/teams');
+  const teamsRes = await axios.get(`${API_BASE}/teams`);
       updateData(prev => ({ ...prev, teams: teamsRes.data }));
       closeEditModal();
     } catch (error) {
@@ -50,12 +51,12 @@ const TeamAccordion = ({ team, hostMode, updateData, theme }) => {
       isLeader: false
     };
     try {
-      await axios.patch(`http://localhost:3001/teams/${team.id}`, {
+  await axios.patch(`${API_BASE}/teams/${team.id}`, {
         ...team,
         teammates: [...team.teammates, newMember]
       });
       // Refresh data
-      const teamsRes = await axios.get('http://localhost:3001/teams');
+  const teamsRes = await axios.get(`${API_BASE}/teams`);
       updateData(prev => ({ ...prev, teams: teamsRes.data }));
     } catch (error) {
       console.error('Error adding member:', error);

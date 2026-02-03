@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { motion } from 'framer-motion';
+const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:3001';
 
 const HostControls = ({ addTeam, addQuiz, addDay, days, theme, data, updateData }) => {
   const [showTeamModal, setShowTeamModal] = useState(false);
@@ -310,7 +311,7 @@ const HostControls = ({ addTeam, addQuiz, addDay, days, theme, data, updateData 
               <button
                 onClick={async () => {
                   try {
-                    await axios.patch(`http://localhost:3001/teams/${editingTeam.id}`, { name: editingTeam.name });
+                      await axios.patch(`${API_BASE}/teams/${editingTeam.id}`, { name: editingTeam.name });
                     updateData({
                       ...data,
                       teams: data.teams.map(t => t.id === editingTeam.id ? {...t, name: editingTeam.name} : t)
@@ -395,7 +396,7 @@ const HostControls = ({ addTeam, addQuiz, addDay, days, theme, data, updateData 
               <button
                 onClick={async () => {
                   try {
-                    await axios.patch(`http://localhost:3001/days/${editingDay.id}`, { name: editingDay.name, date: editingDay.date });
+                    await axios.patch(`${API_BASE}/days/${editingDay.id}`, { name: editingDay.name, date: editingDay.date });
                     updateData({
                       ...data,
                       days: data.days.map(d => d.id === editingDay.id ? {...d, name: editingDay.name, date: editingDay.date} : d)
@@ -474,7 +475,7 @@ const HostControls = ({ addTeam, addQuiz, addDay, days, theme, data, updateData 
               <button
                 onClick={async () => {
                   try {
-                    await axios.patch(`http://localhost:3001/quizzes/${editingQuiz.id}`, { name: editingQuiz.name });
+                    await axios.patch(`${API_BASE}/quizzes/${editingQuiz.id}`, { name: editingQuiz.name });
                     updateData({
                       ...data,
                       quizzes: data.quizzes.map(q => q.id === editingQuiz.id ? {...q, name: editingQuiz.name} : q)

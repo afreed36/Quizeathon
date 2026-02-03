@@ -8,6 +8,8 @@ import Analytics from './components/Analytics';
 import { ThemeProvider, useTheme } from './contexts/ThemeContext';
 import seedData from './data/seed.json';
 import teamRoundOverrides from './data/teamRoundOverrides';
+// Allow overriding API base for deployed environments (e.g., Render)
+const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:3001';
 
 function AppContent() {
   const [data, setData] = useState({ teams: [], days: [], quizzes: [], rounds: [], scores: [] });
@@ -37,11 +39,11 @@ function AppContent() {
     try {
       // Try primary API (json-server)
       const [teamsRes, daysRes, quizzesRes, roundsRes, scoresRes] = await Promise.all([
-        axios.get('http://localhost:3001/teams'),
-        axios.get('http://localhost:3001/days'),
-        axios.get('http://localhost:3001/quizzes'),
-        axios.get('http://localhost:3001/rounds'),
-        axios.get('http://localhost:3001/scores'),
+        axios.get(`${API_BASE}/teams`),
+        axios.get(`${API_BASE}/days`),
+        axios.get(`${API_BASE}/quizzes`),
+        axios.get(`${API_BASE}/rounds`),
+        axios.get(`${API_BASE}/scores`),
       ]);
       setData({
         teams: teamsRes.data,
