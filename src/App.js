@@ -241,12 +241,12 @@ function AppContent() {
         transition={{ duration: 0.3 }}
         className="text-center mb-12"
       >
-        <h1 className={`text-3xl font-light ${theme.colors.primary} mb-1 tracking-wider`}>THE VAULT</h1>
-        <p className={`${theme.colors.muted} text-sm`}>Quizathon-QEA-Quiz Arena</p>
+  <h1 className={`text-2xl md:text-3xl font-light ${theme.colors.primary} mb-1 tracking-wider`}>THE VAULT</h1>
+  <p className={`${theme.colors.muted} text-xs md:text-sm`}>Quizathon-QEA-Quiz Arena</p>
         {/* serverOnline flag retained for informational/debugging, but no local-edit UI shown */}
       </motion.header>
 
-      <div className="flex justify-between items-center mb-8">
+  <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 space-y-3 md:space-y-0">
         <button
           onClick={toggleTheme}
           className={`px-3 py-2 border ${theme.colors.border} ${theme.colors.muted} ${theme.colors.hover} text-sm uppercase tracking-widest transition-all duration-200`}
@@ -254,10 +254,10 @@ function AppContent() {
           {theme.name}
         </button>
 
-  <div className="flex space-x-1">
+  <div className="flex flex-wrap space-x-1">
           <button
             onClick={() => setView('leaderboard')}
-            className={`px-6 py-2 text-sm uppercase tracking-widest border transition-all duration-200 ${
+            className={`px-3 md:px-6 py-2 text-xs md:text-sm uppercase tracking-widest border transition-all duration-200 ${
               view === 'leaderboard'
                 ? `${theme.colors.primaryBorder} ${theme.colors.primary} ${theme.colors.primaryBg}`
                 : `${theme.colors.border} ${theme.colors.muted} ${theme.colors.hover}`
@@ -267,7 +267,7 @@ function AppContent() {
           </button>
           <button
             onClick={() => setView('analytics')}
-            className={`px-6 py-2 text-sm uppercase tracking-widest border transition-all duration-200 ${
+            className={`px-3 md:px-6 py-2 text-xs md:text-sm uppercase tracking-widest border transition-all duration-200 ${
               view === 'analytics'
                 ? `${theme.colors.primaryBorder} ${theme.colors.primary} ${theme.colors.primaryBg}`
                 : `${theme.colors.border} ${theme.colors.muted} ${theme.colors.hover}`
@@ -278,7 +278,7 @@ function AppContent() {
           {!hostMode ? (
             <button
               onClick={exportSummaryToExcel}
-              className={`px-6 py-2 text-sm uppercase tracking-widest border transition-all duration-200 ${theme.colors.border} ${theme.colors.muted} ${theme.colors.hover}`}
+              className={`px-3 md:px-6 py-2 text-xs md:text-sm uppercase tracking-widest border transition-all duration-200 ${theme.colors.border} ${theme.colors.muted} ${theme.colors.hover}`}
               title="Download summary as Excel"
             >
               DOWNLOAD SUMMARY
@@ -287,14 +287,14 @@ function AppContent() {
             <>
               <button
                 onClick={exportSummaryToExcel}
-                className={`px-6 py-2 text-sm uppercase tracking-widest border transition-all duration-200 ${theme.colors.border} ${theme.colors.muted} ${theme.colors.hover}`}
+                className={`px-3 md:px-6 py-2 text-xs md:text-sm uppercase tracking-widest border transition-all duration-200 ${theme.colors.border} ${theme.colors.muted} ${theme.colors.hover}`}
                 title="Download summary as Excel"
               >
                 DOWNLOAD SUMMARY
               </button>
               <button
                 onClick={exportDetailsToExcel}
-                className={`px-6 py-2 text-sm uppercase tracking-widest border transition-all duration-200 ${theme.colors.border} ${theme.colors.muted} ${theme.colors.hover}`}
+                className={`px-3 md:px-6 py-2 text-xs md:text-sm uppercase tracking-widest border transition-all duration-200 ${theme.colors.border} ${theme.colors.muted} ${theme.colors.hover}`}
                 title="Download detailed report as Excel"
               >
                 DOWNLOAD DETAILS
@@ -328,7 +328,7 @@ function AppContent() {
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className={`${theme.colors.card} p-6 rounded-lg w-96`}
+            className={`${theme.colors.card} p-6 rounded-lg w-full max-w-md sm:w-96`}
           >
             <h3 className="text-lg font-bold mb-4">Admin Authentication</h3>
             <div className="space-y-4">

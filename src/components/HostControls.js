@@ -74,22 +74,22 @@ const HostControls = ({ addTeam, addQuiz, addDay, days, theme, data, updateData 
   };
 
   return (
-    <div className="mb-8 flex justify-center space-x-2">
+    <div className="mb-8 flex flex-wrap justify-center space-x-2 gap-y-2">
       <button
         onClick={() => setShowTeamModal(true)}
-        className={`px-6 py-2 border ${theme.colors.primaryBorder} ${theme.colors.primary} ${theme.colors.primaryBg} text-sm uppercase tracking-wider transition-all duration-200`}
+        className={`px-3 sm:px-6 py-2 text-xs sm:text-sm border ${theme.colors.primaryBorder} ${theme.colors.primary} ${theme.colors.primaryBg} uppercase tracking-wider transition-all duration-200`}
       >
         Add Team
       </button>
       <button
         onClick={() => setShowQuizModal(true)}
-        className={`px-6 py-2 border ${theme.colors.primaryBorder} ${theme.colors.primary} ${theme.colors.primaryBg} text-sm uppercase tracking-wider transition-all duration-200`}
+        className={`px-3 sm:px-6 py-2 text-xs sm:text-sm border ${theme.colors.primaryBorder} ${theme.colors.primary} ${theme.colors.primaryBg} uppercase tracking-wider transition-all duration-200`}
       >
         Add Quiz
       </button>
       <button
         onClick={() => setShowDayModal(true)}
-        className={`px-6 py-2 border ${theme.colors.primaryBorder} ${theme.colors.primary} ${theme.colors.primaryBg} text-sm uppercase tracking-wider transition-all duration-200`}
+        className={`px-3 sm:px-6 py-2 text-xs sm:text-sm border ${theme.colors.primaryBorder} ${theme.colors.primary} ${theme.colors.primaryBg} uppercase tracking-wider transition-all duration-200`}
       >
         Add Day
       </button>
@@ -100,7 +100,7 @@ const HostControls = ({ addTeam, addQuiz, addDay, days, theme, data, updateData 
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className={`${theme.colors.card} border ${theme.colors.border} p-6 rounded w-96 max-h-96 overflow-y-auto`}
+            className={`${theme.colors.card} border ${theme.colors.border} p-6 rounded w-full max-w-md sm:w-96 max-h-96 overflow-y-auto`}
           >
             <h3 className={`text-lg font-light ${theme.colors.primary} mb-4 uppercase tracking-wider`}>Add Team</h3>
             <input
@@ -173,7 +173,7 @@ const HostControls = ({ addTeam, addQuiz, addDay, days, theme, data, updateData 
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className={`${theme.colors.card} border ${theme.colors.border} p-6 rounded w-96`}
+            className={`${theme.colors.card} border ${theme.colors.border} p-6 rounded w-full max-w-md sm:w-96`}
           >
             <h3 className={`text-lg font-light ${theme.colors.primary} mb-4 uppercase tracking-wider`}>Add Quiz</h3>
             <input
@@ -217,7 +217,7 @@ const HostControls = ({ addTeam, addQuiz, addDay, days, theme, data, updateData 
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className={`${theme.colors.card} border ${theme.colors.border} p-6 rounded w-96`}
+            className={`${theme.colors.card} border ${theme.colors.border} p-6 rounded w-full max-w-md sm:w-96`}
           >
             <h3 className={`text-lg font-light ${theme.colors.primary} mb-4 uppercase tracking-wider`}>Add Day</h3>
             <input
@@ -257,7 +257,7 @@ const HostControls = ({ addTeam, addQuiz, addDay, days, theme, data, updateData 
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className={`${theme.colors.card} border ${theme.colors.border} p-6 rounded w-96 max-h-96 overflow-y-auto`}
+            className={`${theme.colors.card} border ${theme.colors.border} p-6 rounded w-full max-w-md sm:w-96 max-h-96 overflow-y-auto`}
           >
             <h3 className={`text-lg font-light ${theme.colors.primary} mb-4 uppercase tracking-wider`}>Edit Teams</h3>
             <div className="space-y-2">
@@ -291,7 +291,7 @@ const HostControls = ({ addTeam, addQuiz, addDay, days, theme, data, updateData 
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className={`${theme.colors.card} border ${theme.colors.border} p-6 rounded w-96`}
+            className={`${theme.colors.card} border ${theme.colors.border} p-6 rounded w-full max-w-md sm:w-96`}
           >
             <h3 className={`text-lg font-light ${theme.colors.primary} mb-4 uppercase tracking-wider`}>Edit Team</h3>
             <input
@@ -336,7 +336,7 @@ const HostControls = ({ addTeam, addQuiz, addDay, days, theme, data, updateData 
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className={`${theme.colors.card} border ${theme.colors.border} p-6 rounded w-96 max-h-96 overflow-y-auto`}
+            className={`${theme.colors.card} border ${theme.colors.border} p-6 rounded w-full max-w-md sm:w-96 max-h-96 overflow-y-auto`}
           >
             <h3 className={`text-lg font-light ${theme.colors.primary} mb-4 uppercase tracking-wider`}>Edit Days</h3>
             <div className="space-y-2">
@@ -370,7 +370,7 @@ const HostControls = ({ addTeam, addQuiz, addDay, days, theme, data, updateData 
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className={`${theme.colors.card} border ${theme.colors.border} p-6 rounded w-96`}
+            className={`${theme.colors.card} border ${theme.colors.border} p-6 rounded w-full max-w-md sm:w-96`}
           >
             <h3 className={`text-lg font-light ${theme.colors.primary} mb-4 uppercase tracking-wider`}>Edit Day</h3>
             <input

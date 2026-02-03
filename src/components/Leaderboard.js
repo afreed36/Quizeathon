@@ -396,7 +396,7 @@ const Leaderboard = ({ data, hostMode, updateData, theme, serverOnline, refreshD
           </div>
         </div>
       )}
-      <div className="overflow-x-auto">
+  <div className="overflow-x-auto -mx-4 sm:-mx-0 px-4 sm:px-0">
       <motion.table
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -405,16 +405,16 @@ const Leaderboard = ({ data, hostMode, updateData, theme, serverOnline, refreshD
       >
         <thead>
           <tr className={`border-b ${theme.colors.border}`}>
-            <th className={`sticky left-0 z-50 w-16 min-w-16 px-4 py-3 text-left text-xs uppercase tracking-wider ${theme.colors.muted} ${theme.colors.background} border-r ${theme.colors.border}`}>Rank</th>
-            <th className={`sticky left-16 z-40 w-48 min-w-48 px-4 py-3 text-left text-xs uppercase tracking-wider ${theme.colors.muted} ${theme.colors.background} border-r ${theme.colors.border}`}>Team</th>
-            <th className={`sticky left-64 z-30 w-32 min-w-32 px-4 py-3 text-left text-xs uppercase tracking-wider ${theme.colors.muted} ${theme.colors.background} border-r ${theme.colors.border}`}>Average</th>
-            <th className={`sticky left-96 z-20 w-32 min-w-32 px-4 py-3 text-left text-xs uppercase tracking-wider ${theme.colors.muted} ${theme.colors.background} border-r-2 ${theme.colors.border}`}>Total</th>
+            <th className={`hidden md:table-cell md:sticky md:left-0 md:z-50 md:w-16 md:min-w-16 px-2 md:px-4 py-2 md:py-3 text-left text-xs uppercase tracking-wider ${theme.colors.muted} ${theme.colors.background} md:border-r ${theme.colors.border}`}>Rank</th>
+            <th className={`sticky left-16 z-40 w-48 min-w-32 px-2 md:px-4 py-2 md:py-3 text-left text-xs uppercase tracking-wider ${theme.colors.muted} ${theme.colors.background} border-r ${theme.colors.border}`}>Team</th>
+            <th className={`hidden md:table-cell md:sticky md:left-64 md:z-30 md:w-32 md:min-w-32 px-2 md:px-4 py-2 md:py-3 text-left text-xs uppercase tracking-wider ${theme.colors.muted} ${theme.colors.background} md:border-r ${theme.colors.border}`}>Average</th>
+            <th className={`hidden md:table-cell md:sticky md:left-96 md:z-20 md:w-32 md:min-w-32 px-2 md:px-4 py-2 md:py-3 text-left text-xs uppercase tracking-wider ${theme.colors.muted} ${theme.colors.background} md:border-r-2 ${theme.colors.border}`}>Total</th>
             {data.days.map(day => (
               // Ensure colSpan is at least 1 to keep header cell clickable even when a day has 0 quizzes
               <th
                 key={day.id}
                 colSpan={Math.max(1, data.quizzes.filter(q => String(q.dayId) === String(day.id)).length)}
-                className={`px-6 py-3 text-center border-l ${theme.colors.border} text-xs uppercase tracking-wider ${theme.colors.muted} relative whitespace-nowrap`}
+                className={`px-3 md:px-6 py-2 md:py-3 text-center border-l ${theme.colors.border} text-xs uppercase tracking-wider ${theme.colors.muted} relative whitespace-nowrap`}
               >
                 <div className="flex items-center justify-center space-x-2 pointer-events-auto relative z-10">
                   {editingDayId === day.id ? (
@@ -483,13 +483,13 @@ const Leaderboard = ({ data, hostMode, updateData, theme, serverOnline, refreshD
             ))}
           </tr>
           <tr className={`border-b ${theme.colors.border}`}>
-            <th className={`sticky left-0 z-20 ${theme.colors.background}`}></th>
-            <th className={`sticky left-16 z-20 ${theme.colors.background}`}></th>
-            <th className={`sticky left-64 z-20 ${theme.colors.background}`}></th>
-            <th className={`sticky left-96 z-20 ${theme.colors.background}`}></th>
+            <th className={`hidden md:table-cell md:sticky md:left-0 md:z-20 ${theme.colors.background}`}></th>
+            <th className={`hidden md:table-cell md:sticky md:left-16 md:z-20 ${theme.colors.background}`}></th>
+            <th className={`hidden md:table-cell md:sticky md:left-64 md:z-20 ${theme.colors.background}`}></th>
+            <th className={`hidden md:table-cell md:sticky md:left-96 md:z-20 ${theme.colors.background}`}></th>
             {data.days.map(day =>
               data.quizzes.filter(q => String(q.dayId) === String(day.id)).map(quiz => (
-                <th key={quiz.id} className={`px-6 py-3 text-center border-l ${theme.colors.border} text-xs ${theme.colors.muted} whitespace-nowrap`}>
+                <th key={quiz.id} className={`px-3 md:px-6 py-2 md:py-3 text-center border-l ${theme.colors.border} text-xs ${theme.colors.muted} whitespace-nowrap`}>
                   <div className="flex items-center justify-center space-x-2">
                     {editingQuizId === quiz.id ? (
                       <div className="flex flex-col space-y-1">

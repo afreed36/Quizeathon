@@ -112,7 +112,7 @@ const TeamAccordion = ({ team, hostMode, updateData, theme }) => {
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="bg-gray-800 p-6 rounded-lg w-96"
+            className="bg-gray-800 p-6 rounded-lg w-full max-w-md sm:w-96"
           >
             <h3 className="text-lg font-bold mb-4">Edit Member</h3>
             <div className="space-y-4">
