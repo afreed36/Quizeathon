@@ -100,27 +100,9 @@ const Leaderboard = ({ data, hostMode, updateData, theme, serverOnline, refreshD
       setIsEditingScores(true);
       const teamMemberIds = data.teams.find(t => t.id === teamId)?.teammates.map(m => m.id) || [];
   const existingScores = data.scores.filter(s => teamMemberIds.includes(s.memberId) && String(s.roundId) === String(roundId));
-      // If server is offline, update local state only
+      // If server is offline, do not persist locally — require server to be reachable
       if (typeof serverOnline !== 'undefined' && !serverOnline) {
-        if (existingScores.length > 0) {
-          updateData({
-            ...data,
-            scores: data.scores.map(score =>
-              existingScores.some(es => es.id === score.id)
-                ? { ...score, score: parseInt(newScore) }
-                : score
-            )
-          });
-        } else {
-          const newLocalScores = teamMemberIds.map(memberId => ({
-            id: `local-${Date.now()}-${memberId}-${roundId}`,
-            memberId,
-            roundId,
-            score: parseInt(newScore)
-          }));
-          updateData({ ...data, scores: [...data.scores, ...newLocalScores] });
-        }
-        toast('Score saved locally (server offline)', { icon: '⚠️' });
+        toast.error('Server unreachable. Cannot save score. Please try again when connected.');
         return;
       }
       
@@ -167,8 +149,7 @@ const Leaderboard = ({ data, hostMode, updateData, theme, serverOnline, refreshD
     try {
       const newTeam = { name: teamName, teammates: teamMembers };
       if (typeof serverOnline !== 'undefined' && !serverOnline) {
-        updateData({ ...data, teams: [...data.teams, { ...newTeam, id: Date.now().toString() }] });
-        toast('Team added locally (server offline)', { icon: '⚠️' });
+        toast.error('Server unreachable. Cannot add team. Please try again when connected.');
         return;
       }
   const res = await axios.post(`${API_BASE}/teams`, newTeam);
@@ -184,14 +165,7 @@ const Leaderboard = ({ data, hostMode, updateData, theme, serverOnline, refreshD
     try {
       const newQuiz = { name: quizName, dayId };
       if (typeof serverOnline !== 'undefined' && !serverOnline) {
-        const localQuizId = `local-${Date.now()}`;
-        const localRound = { id: `local-r-${Date.now()}`, name: 'Round 1', quizId: localQuizId };
-        updateData({
-          ...data,
-          quizzes: [...data.quizzes, { ...newQuiz, id: localQuizId }],
-          rounds: [...data.rounds, localRound]
-        });
-        toast('Quiz added locally (server offline)', { icon: '⚠️' });
+        toast.error('Server unreachable. Cannot add quiz. Please try again when connected.');
         return;
       }
   const res = await axios.post(`${API_BASE}/quizzes`, newQuiz);
@@ -213,8 +187,7 @@ const Leaderboard = ({ data, hostMode, updateData, theme, serverOnline, refreshD
   const addDay = async (dayName, dayDate) => {
     try {
       if (typeof serverOnline !== 'undefined' && !serverOnline) {
-        updateData({ ...data, days: [...data.days, { id: `local-${Date.now()}`, name: dayName, date: dayDate }] });
-        toast('Day added locally (server offline)', { icon: '⚠️' });
+        toast.error('Server unreachable. Cannot add day. Please try again when connected.');
         return;
       }
   const res = await axios.post(`${API_BASE}/days`, { name: dayName, date: dayDate });
@@ -234,14 +207,7 @@ const Leaderboard = ({ data, hostMode, updateData, theme, serverOnline, refreshD
       }
       // If server is offline, update local state only and inform the user
       if (!serverOnline) {
-        updateData({
-          ...data,
-          days: data.days.map(day => day.id === dayId ? { ...day, name: newName, date: newDate || day.date || '' } : day)
-        });
-        setEditingDayId(null);
-        setEditingDayDate('');
-        setEditingDayName('');
-        toast('Saved locally (server offline)', { icon: '⚠️' });
+        toast.error('Server unreachable. Cannot update day. Please try again when connected.');
         return;
       }
 
@@ -282,14 +248,7 @@ const Leaderboard = ({ data, hostMode, updateData, theme, serverOnline, refreshD
       const roundsToDelete = data.rounds.filter(r => quizzesToDelete.some(q => q.id === r.quizId));
       const scoresToDelete = data.scores.filter(s => roundsToDelete.some(r => r.id === s.roundId));
       if (typeof serverOnline !== 'undefined' && !serverOnline) {
-        updateData({
-          ...data,
-          days: data.days.filter(d => d.id !== dayId),
-          quizzes: data.quizzes.filter(q => q.dayId !== dayId),
-          rounds: data.rounds.filter(r => !roundsToDelete.some(rt => rt.id === r.id)),
-          scores: data.scores.filter(s => !scoresToDelete.some(st => st.id === s.id))
-        });
-        toast('Day deleted locally (server offline)', { icon: '⚠️' });
+        toast.error('Server unreachable. Cannot delete day. Please try again when connected.');
         return;
       }
   await Promise.all(quizzesToDelete.map(q => axios.delete(`${API_BASE}/quizzes/${q.id}`)));
@@ -316,12 +275,7 @@ const Leaderboard = ({ data, hostMode, updateData, theme, serverOnline, refreshD
     try {
       const existingQuiz = data.quizzes.find(q => q.id === quizId);
       if (typeof serverOnline !== 'undefined' && !serverOnline) {
-        updateData({
-          ...data,
-          quizzes: data.quizzes.map(quiz => quiz.id === quizId ? { ...quiz, name: newName } : quiz)
-        });
-        setEditingQuizId(null);
-        toast('Quiz name saved locally (server offline)', { icon: '⚠️' });
+        toast.error('Server unreachable. Cannot update quiz. Please try again when connected.');
         return;
       }
   await axios.put(`${API_BASE}/quizzes/${quizId}`, { id: quizId, name: newName, dayId: existingQuiz.dayId });
@@ -343,14 +297,7 @@ const Leaderboard = ({ data, hostMode, updateData, theme, serverOnline, refreshD
       // Delete associated rounds
   const roundsToDelete = data.rounds.filter(r => String(r.quizId) === String(quizId));
       if (typeof serverOnline !== 'undefined' && !serverOnline) {
-        const scoresToDelete = data.scores.filter(s => roundsToDelete.some(r => r.id === s.roundId));
-        updateData({
-          ...data,
-          quizzes: data.quizzes.filter(q => q.id !== quizId),
-          rounds: data.rounds.filter(r => r.quizId !== quizId),
-          scores: data.scores.filter(s => !scoresToDelete.some(st => st.id === s.id))
-        });
-        toast('Quiz deleted locally (server offline)', { icon: '⚠️' });
+        toast.error('Server unreachable. Cannot delete quiz. Please try again when connected.');
         return;
       }
   await Promise.all(roundsToDelete.map(r => axios.delete(`${API_BASE}/rounds/${r.id}`)));
@@ -379,12 +326,7 @@ const Leaderboard = ({ data, hostMode, updateData, theme, serverOnline, refreshD
     try {
       const existingTeam = data.teams.find(t => t.id === teamId);
       if (typeof serverOnline !== 'undefined' && !serverOnline) {
-        updateData({
-          ...data,
-          teams: data.teams.map(team => team.id === teamId ? { ...team, name: newName } : team)
-        });
-        setEditingTeamId(null);
-        toast('Team name saved locally (server offline)', { icon: '⚠️' });
+        toast.error('Server unreachable. Cannot update team name. Please try again when connected.');
         return;
       }
   await axios.put(`${API_BASE}/teams/${teamId}`, { id: teamId, name: newName, teammates: existingTeam.teammates });
@@ -405,12 +347,7 @@ const Leaderboard = ({ data, hostMode, updateData, theme, serverOnline, refreshD
     try {
       const teamMemberIds = data.teams.find(t => t.id === teamId)?.teammates.map(m => m.id) || [];
       if (typeof serverOnline !== 'undefined' && !serverOnline) {
-        updateData({
-          ...data,
-          teams: data.teams.filter(team => team.id !== teamId),
-          scores: data.scores.filter(s => !teamMemberIds.includes(s.memberId))
-        });
-        toast('Team deleted locally (server offline)', { icon: '⚠️' });
+        toast.error('Server unreachable. Cannot delete team. Please try again when connected.');
         return;
       }
   await axios.delete(`${API_BASE}/teams/${teamId}`);
