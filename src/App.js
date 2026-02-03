@@ -19,6 +19,8 @@ function AppContent() {
   const [authForm, setAuthForm] = useState({ email: '', password: '' });
   const [authError, setAuthError] = useState('');
   const [serverOnline, setServerOnline] = useState(false);
+  const [pendingLocalEdits, setPendingLocalEdits] = useState(false);
+  const [lastLocalEditTs, setLastLocalEditTs] = useState(null);
   const { theme, currentTheme, changeTheme, themes } = useTheme();
 
   useEffect(() => {
@@ -53,6 +55,19 @@ function AppContent() {
         scores: scoresRes.data,
       });
       setServerOnline(true);
+      // If there are local edits saved from offline session, mark them pending so user knows
+      try {
+        const local = localStorage.getItem('LD_LOCAL_DATA');
+        if (local) {
+          const parsed = JSON.parse(local);
+          if (parsed && parsed.ts) {
+            setPendingLocalEdits(true);
+            setLastLocalEditTs(parsed.ts);
+          }
+        }
+      } catch (e) {
+        // ignore
+      }
     } catch (error) {
       console.warn('Primary API fetch failed, falling back to public/db.json:', error?.message || error);
       // Fallback to static file served by React dev server
@@ -60,18 +75,72 @@ function AppContent() {
         const res = await axios.get('/db.json');
         const { teams = [], days = [], quizzes = [], rounds = [], scores = [] } = res.data || {};
         // If fallback returned empty arrays, use embedded seed as last resort
+  let finalData = null;
         if ((teams.length + days.length + quizzes.length + rounds.length + scores.length) === 0) {
-          setData(seedData);
+          finalData = seedData;
           toast('Using embedded data (server and public snapshot unavailable)', { icon: '⚠️' });
         } else {
-          setData({ teams, days, quizzes, rounds, scores });
+          finalData = { teams, days, quizzes, rounds, scores };
           toast('Showing local data (server offline)', { icon: '⚠️' });
+        }
+        // If there are unsaved local edits from another tab/session, prefer those so edits are visible across windows
+        try {
+          const local = localStorage.getItem('LD_LOCAL_DATA');
+          if (local) {
+            const parsed = JSON.parse(local);
+            if (parsed && parsed.data) {
+              finalData = parsed.data;
+              toast('Applied unsynced local edits', { icon: '🔁' });
+            }
+          }
+        } catch (e) {
+          // ignore localStorage parse errors
+        }
+        setData(finalData);
+        // mark pending if local edits exist
+        try {
+          const local = localStorage.getItem('LD_LOCAL_DATA');
+          if (local) {
+            const parsed = JSON.parse(local);
+            if (parsed && parsed.ts) {
+              setPendingLocalEdits(true);
+              setLastLocalEditTs(parsed.ts);
+            }
+          }
+        } catch (e) {
+          // ignore
         }
         setServerOnline(false);
       } catch (fallbackErr) {
         console.error('Fallback fetch failed:', fallbackErr);
         // Last-resort embedded seed ensures UI renders
-        setData(seedData);
+        let finalData = seedData;
+        try {
+          const local = localStorage.getItem('LD_LOCAL_DATA');
+          if (local) {
+            const parsed = JSON.parse(local);
+            if (parsed && parsed.data) {
+              finalData = parsed.data;
+              toast('Applied unsynced local edits', { icon: '🔁' });
+            }
+          }
+        } catch (e) {
+          // ignore
+        }
+        setData(finalData);
+        // mark pending if local edits exist
+        try {
+          const local = localStorage.getItem('LD_LOCAL_DATA');
+          if (local) {
+            const parsed = JSON.parse(local);
+            if (parsed && parsed.ts) {
+              setPendingLocalEdits(true);
+              setLastLocalEditTs(parsed.ts);
+            }
+          }
+        } catch (e) {
+          // ignore
+        }
         setServerOnline(false);
         toast('Using embedded data (server offline)', { icon: '⚠️' });
       }
@@ -80,6 +149,51 @@ function AppContent() {
 
   const updateData = (newData) => {
     setData(newData);
+    // When offline, persist the whole dataset to localStorage so other tabs/windows see changes
+    try {
+      if (typeof window !== 'undefined' && !serverOnline) {
+        const payload = { data: newData, ts: Date.now() };
+        localStorage.setItem('LD_LOCAL_DATA', JSON.stringify(payload));
+        setPendingLocalEdits(true);
+        setLastLocalEditTs(payload.ts);
+      }
+    } catch (err) {
+      console.warn('Could not persist local data to localStorage', err);
+    }
+  };
+
+  // Listen for localStorage events so offline edits propagate between open windows
+  useEffect(() => {
+    const onStorage = (e) => {
+      if (!e) return;
+      if (e.key === 'LD_LOCAL_DATA' && e.newValue) {
+        try {
+          const parsed = JSON.parse(e.newValue);
+          if (parsed && parsed.data) {
+            setData(parsed.data);
+            toast('Applied local edits from another window', { icon: '🔁' });
+            setPendingLocalEdits(true);
+            setLastLocalEditTs(parsed.ts || Date.now());
+          }
+        } catch (err) {
+          console.warn('Failed to parse LD_LOCAL_DATA from storage event', err);
+        }
+      }
+    };
+    window.addEventListener('storage', onStorage);
+    return () => window.removeEventListener('storage', onStorage);
+  }, []);
+
+  const clearLocalEdits = () => {
+    try {
+      localStorage.removeItem('LD_LOCAL_DATA');
+      setPendingLocalEdits(false);
+      setLastLocalEditTs(null);
+      toast.success('Local edits cleared');
+    } catch (e) {
+      console.warn('Failed to clear LD_LOCAL_DATA', e);
+      toast.error('Failed to clear local edits');
+    }
   };
 
   const handleAdminMode = () => {
@@ -91,7 +205,7 @@ function AppContent() {
   };
 
   const authenticate = () => {
-    if (authForm.email === 'admin' && authForm.password === 'admin@123') {
+    if (authForm.email === 'admin' && authForm.password === 'admin@001') {
       setHostMode(true);
       setShowAuthModal(false);
       setAuthForm({ email: '', password: '' });
@@ -251,7 +365,7 @@ function AppContent() {
           {theme.name}
         </button>
 
-        <div className="flex space-x-1">
+  <div className="flex space-x-1">
           <button
             onClick={() => setView('leaderboard')}
             className={`px-6 py-2 text-sm uppercase tracking-widest border transition-all duration-200 ${
@@ -300,16 +414,36 @@ function AppContent() {
           )}
         </div>
 
-        <button
-          onClick={handleAdminMode}
-          className={`px-6 py-2 text-sm uppercase tracking-widest border transition-all duration-200 ${
-            hostMode
-              ? 'border-red-400 text-red-400 bg-red-400/10'
-              : `${theme.colors.border} ${theme.colors.muted} ${theme.colors.hover}`
-          }`}
-        >
-          {hostMode ? 'EXIT ADMIN' : 'ADMIN MODE'}
-        </button>
+        <div className="flex items-center space-x-3">
+          <div
+            className={`text-xs px-3 py-2 rounded border ${theme.colors.border} flex items-center space-x-2`}
+            title={pendingLocalEdits ? 'You have local edits pending sync' : serverOnline ? 'Server reachable' : 'Offline - using local snapshot'}
+          >
+            <span className={`${serverOnline ? 'text-green-700' : 'text-yellow-700'} font-medium`}>{serverOnline ? 'Online' : 'Offline'}</span>
+            {pendingLocalEdits && (
+              <span className="ml-2 text-xs text-red-600">Unsynced edits</span>
+            )}
+          </div>
+          {pendingLocalEdits && (
+            <button
+              onClick={clearLocalEdits}
+              className={`px-3 py-2 text-xs uppercase tracking-widest border transition-all duration-200 ${theme.colors.border} ${theme.colors.muted} ${theme.colors.hover}`}
+            >
+              Clear local edits
+            </button>
+          )}
+
+          <button
+            onClick={handleAdminMode}
+            className={`px-6 py-2 text-sm uppercase tracking-widest border transition-all duration-200 ${
+              hostMode
+                ? 'border-red-400 text-red-400 bg-red-400/10'
+                : `${theme.colors.border} ${theme.colors.muted} ${theme.colors.hover}`
+            }`}
+          >
+            {hostMode ? 'EXIT ADMIN' : 'ADMIN MODE'}
+          </button>
+        </div>
       </div>
 
       {view === 'leaderboard' ? (

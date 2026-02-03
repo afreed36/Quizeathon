@@ -852,25 +852,25 @@
       "id": "49",
       "memberId": "2457795",
       "roundId": 1,
-      "score": 100
+      "score": 60
     },
     {
       "id": "50",
       "memberId": "2457795",
       "roundId": 2,
-      "score": 90
+      "score": 55
     },
     {
       "id": "51",
       "memberId": "2457795",
       "roundId": 3,
-      "score": 85
+      "score": 60
     },
     {
       "id": "52",
       "memberId": "2457795",
       "roundId": 4,
-      "score": 75
+      "score": 70
     },
     {
       "id": "53",
@@ -888,61 +888,61 @@
       "id": "55",
       "memberId": "2457795",
       "roundId": 7,
-      "score": 75
+      "score": 65
     },
     {
       "id": "56",
       "memberId": "2457795",
       "roundId": 8,
-      "score": 65
+      "score": 75
     },
     {
       "id": "57",
       "memberId": "2457911",
       "roundId": 1,
-      "score": 65
+      "score": 100
     },
     {
       "id": "58",
       "memberId": "2457911",
       "roundId": 2,
-      "score": 60
+      "score": 90
     },
     {
       "id": "59",
       "memberId": "2457911",
       "roundId": 3,
-      "score": 55
+      "score": 65
     },
     {
       "id": "60",
       "memberId": "2457911",
       "roundId": 4,
-      "score": 55
+      "score": 75
     },
     {
       "id": "61",
       "memberId": "2457911",
       "roundId": 5,
-      "score": 90
+      "score": 70
     },
     {
       "id": "62",
       "memberId": "2457911",
       "roundId": 6,
-      "score": 55
+      "score": 85
     },
     {
       "id": "63",
       "memberId": "2457911",
       "roundId": 7,
-      "score": 100
+      "score": 75
     },
     {
       "id": "64",
       "memberId": "2457911",
       "roundId": 8,
-      "score": 85
+      "score": 65
     },
     {
       "id": "65",
@@ -1139,7 +1139,7 @@
     {
       "memberId": "2457795",
       "roundId": "5cef",
-      "score": 70,
+      "score": 60,
       "id": "96"
     },
     {
@@ -1440,7 +1440,7 @@
       "id": "8822",
       "memberId": "2457911",
       "roundId": "f7fa",
-      "score": 65
+      "score": 80
     },
     {
       "id": "8c12",
@@ -1452,49 +1452,49 @@
       "id": "b801",
       "memberId": "2457364",
       "roundId": "f7fa",
-      "score": 65
+      "score": 80
     },
     {
       "id": "ce5a",
       "memberId": "2457864",
       "roundId": "f7fa",
-      "score": 65
+      "score": 80
     },
     {
       "id": "6a60",
       "memberId": "2457848",
       "roundId": "f7fa",
-      "score": 65
+      "score": 80
     },
     {
       "id": "f061",
       "memberId": "2457795",
       "roundId": "f7fa",
-      "score": 95
+      "score": 70
     },
     {
       "id": "b900",
       "memberId": "2457813",
       "roundId": "f7fa",
-      "score": 95
+      "score": 80
     },
     {
       "id": "986e",
       "memberId": "2457891",
       "roundId": "f7fa",
-      "score": 95
+      "score": 80
     },
     {
       "id": "45a8",
       "memberId": "2457777",
       "roundId": "f7fa",
-      "score": 95
+      "score": 80
     },
     {
       "id": "42de",
       "memberId": "2457840",
       "roundId": "f7fa",
-      "score": 95
+      "score": 80
     },
     {
       "id": "f46b",
@@ -1818,31 +1818,31 @@
       "id": "8dfb",
       "memberId": "2457795",
       "roundId": "f37c",
-      "score": 65
+      "score": 95
     },
     {
       "id": "b2a5",
       "memberId": "2457813",
       "roundId": "f37c",
-      "score": 65
+      "score": 95
     },
     {
       "id": "adf9",
       "memberId": "2457891",
       "roundId": "f37c",
-      "score": 65
+      "score": 95
     },
     {
       "id": "9182",
       "memberId": "2457777",
       "roundId": "f37c",
-      "score": 65
+      "score": 95
     },
     {
       "id": "accc",
       "memberId": "2457840",
       "roundId": "f37c",
-      "score": 65
+      "score": 95
     },
     {
       "id": "fa2a",
@@ -2142,31 +2142,31 @@
       "id": "ff38",
       "memberId": "2457795",
       "roundId": "9417",
-      "score": 55
+      "score": 85
     },
     {
       "id": "7463",
       "memberId": "2457813",
       "roundId": "9417",
-      "score": 55
+      "score": 85
     },
     {
       "id": "7b6b",
       "memberId": "2457891",
       "roundId": "9417",
-      "score": 55
+      "score": 85
     },
     {
       "id": "8494",
       "memberId": "2457777",
       "roundId": "9417",
-      "score": 55
+      "score": 85
     },
     {
       "id": "4173",
       "memberId": "2457840",
       "roundId": "9417",
-      "score": 55
+      "score": 85
     },
     {
       "id": "46f9",
@@ -2304,13 +2304,13 @@
       "id": "e6ac",
       "memberId": "2457795",
       "roundId": "2b01",
-      "score": 65
+      "score": 75
     },
     {
       "id": "7b0c",
       "memberId": "2457813",
       "roundId": "2b01",
-      "score": 65
+      "score": 75
     },
     {
       "id": "7110",
@@ -2328,19 +2328,19 @@
       "id": "dc5a",
       "memberId": "2457891",
       "roundId": "2b01",
-      "score": 65
+      "score": 75
     },
     {
       "id": "bf5b",
       "memberId": "2457777",
       "roundId": "2b01",
-      "score": 65
+      "score": 75
     },
     {
       "id": "6954",
       "memberId": "2457840",
       "roundId": "2b01",
-      "score": 65
+      "score": 75
     },
     {
       "id": "eccc",
@@ -2688,31 +2688,31 @@
       "id": "828f",
       "memberId": "2457813",
       "roundId": "a3fb",
-      "score": 85
+      "score": 60
     },
     {
       "id": "f022",
       "memberId": "2457795",
       "roundId": "a3fb",
-      "score": 85
+      "score": 60
     },
     {
       "id": "ba58",
       "memberId": "2457891",
       "roundId": "a3fb",
-      "score": 85
+      "score": 60
     },
     {
       "id": "68c0",
       "memberId": "2457777",
       "roundId": "a3fb",
-      "score": 85
+      "score": 60
     },
     {
       "id": "890f",
       "memberId": "2457840",
       "roundId": "a3fb",
-      "score": 85
+      "score": 60
     },
     {
       "id": "fdb5",
@@ -2844,7 +2844,7 @@
       "id": "a57f",
       "memberId": "2457913",
       "roundId": "b4db",
-      "score": 80
+      "score": 90
     },
     {
       "id": "ad39",
@@ -2892,25 +2892,25 @@
       "id": "65cc",
       "memberId": "2457813",
       "roundId": "b4db",
-      "score": 55
+      "score": 90
     },
     {
       "id": "d1fe",
       "memberId": "2457891",
       "roundId": "b4db",
-      "score": 55
+      "score": 90
     },
     {
       "id": "1e1b",
       "memberId": "2457777",
       "roundId": "b4db",
-      "score": 55
+      "score": 90
     },
     {
       "id": "514c",
       "memberId": "2457840",
       "roundId": "b4db",
-      "score": 55
+      "score": 90
     },
     {
       "id": "c1a1",
@@ -3696,13 +3696,13 @@
       "id": "76bc",
       "memberId": "2457795",
       "roundId": "cb19",
-      "score": 95
+      "score": 75
     },
     {
       "id": "5faf",
       "memberId": "2457813",
       "roundId": "cb19",
-      "score": 95
+      "score": 75
     },
     {
       "id": "ceaf",
@@ -3714,13 +3714,13 @@
       "id": "4650",
       "memberId": "2457891",
       "roundId": "cb19",
-      "score": 95
+      "score": 75
     },
     {
       "id": "968f",
       "memberId": "2457777",
       "roundId": "cb19",
-      "score": 95
+      "score": 75
     },
     {
       "id": "edbc",
@@ -3732,13 +3732,13 @@
       "id": "46fe",
       "memberId": "2457840",
       "roundId": "cb19",
-      "score": 95
+      "score": 75
     },
     {
       "id": "296f",
       "memberId": "2457795",
       "roundId": "3124",
-      "score": 55
+      "score": 70
     },
     {
       "id": "6d0e",
@@ -3750,13 +3750,13 @@
       "id": "8cd5",
       "memberId": "2457813",
       "roundId": "3124",
-      "score": 55
+      "score": 70
     },
     {
       "id": "b502",
       "memberId": "2457891",
       "roundId": "3124",
-      "score": 55
+      "score": 70
     },
     {
       "id": "07a5",
@@ -3768,19 +3768,19 @@
       "id": "ca7b",
       "memberId": "2457777",
       "roundId": "3124",
-      "score": 55
+      "score": 70
     },
     {
       "id": "8ef6",
       "memberId": "2457840",
       "roundId": "3124",
-      "score": 55
+      "score": 70
     },
     {
       "id": "8f71",
       "memberId": "2457795",
       "roundId": "6cd6",
-      "score": 100
+      "score": 80
     },
     {
       "id": "cbc8",
@@ -3792,13 +3792,13 @@
       "id": "b099",
       "memberId": "2457813",
       "roundId": "6cd6",
-      "score": 100
+      "score": 80
     },
     {
       "id": "1192",
       "memberId": "2457891",
       "roundId": "6cd6",
-      "score": 100
+      "score": 80
     },
     {
       "id": "c9fa",
@@ -3816,7 +3816,7 @@
       "id": "0d0f",
       "memberId": "2457777",
       "roundId": "6cd6",
-      "score": 100
+      "score": 80
     },
     {
       "id": "b402",
@@ -3828,7 +3828,7 @@
       "id": "7985",
       "memberId": "2457840",
       "roundId": "6cd6",
-      "score": 100
+      "score": 80
     },
     {
       "id": "8c56",
@@ -3840,7 +3840,7 @@
       "id": "810e",
       "memberId": "2457795",
       "roundId": "499a",
-      "score": 55
+      "score": 70
     },
     {
       "id": "16d0",
@@ -3852,25 +3852,25 @@
       "id": "6288",
       "memberId": "2457813",
       "roundId": "499a",
-      "score": 55
+      "score": 70
     },
     {
       "id": "a24a",
       "memberId": "2457891",
       "roundId": "499a",
-      "score": 55
+      "score": 70
     },
     {
       "id": "15d1",
       "memberId": "2457777",
       "roundId": "499a",
-      "score": 55
+      "score": 70
     },
     {
       "id": "ea6b",
       "memberId": "2457840",
       "roundId": "499a",
-      "score": 55
+      "score": 70
     },
     {
       "id": "37cc",
@@ -4866,121 +4866,121 @@
       "id": "db57",
       "memberId": "2457795",
       "roundId": "cb19",
-      "score": 95
+      "score": 75
     },
     {
       "id": "08d8",
       "memberId": "2457813",
       "roundId": "cb19",
-      "score": 95
+      "score": 75
     },
     {
       "id": "e6cd",
       "memberId": "2457891",
       "roundId": "cb19",
-      "score": 95
+      "score": 75
     },
     {
       "id": "b823",
       "memberId": "2457777",
       "roundId": "cb19",
-      "score": 95
+      "score": 75
     },
     {
       "id": "07d2",
       "memberId": "2457840",
       "roundId": "cb19",
-      "score": 95
+      "score": 75
     },
     {
       "id": "a9e4",
       "memberId": "2457795",
       "roundId": "3124",
-      "score": 55
+      "score": 70
     },
     {
       "id": "7e7c",
       "memberId": "2457813",
       "roundId": "3124",
-      "score": 55
+      "score": 70
     },
     {
       "id": "04bb",
       "memberId": "2457891",
       "roundId": "3124",
-      "score": 55
+      "score": 70
     },
     {
       "id": "3389",
       "memberId": "2457777",
       "roundId": "3124",
-      "score": 55
+      "score": 70
     },
     {
       "id": "fa64",
       "memberId": "2457840",
       "roundId": "3124",
-      "score": 55
+      "score": 70
     },
     {
       "id": "1ac0",
       "memberId": "2457795",
       "roundId": "6cd6",
-      "score": 100
+      "score": 80
     },
     {
       "id": "24fe",
       "memberId": "2457813",
       "roundId": "6cd6",
-      "score": 100
+      "score": 80
     },
     {
       "id": "98d9",
       "memberId": "2457891",
       "roundId": "6cd6",
-      "score": 100
+      "score": 80
     },
     {
       "id": "e105",
       "memberId": "2457777",
       "roundId": "6cd6",
-      "score": 100
+      "score": 80
     },
     {
       "id": "d4df",
       "memberId": "2457840",
       "roundId": "6cd6",
-      "score": 100
+      "score": 80
     },
     {
       "id": "8b49",
       "memberId": "2457795",
       "roundId": "499a",
-      "score": 55
+      "score": 70
     },
     {
       "id": "2db2",
       "memberId": "2457813",
       "roundId": "499a",
-      "score": 55
+      "score": 70
     },
     {
       "id": "8252",
       "memberId": "2457891",
       "roundId": "499a",
-      "score": 55
+      "score": 70
     },
     {
       "id": "799b",
       "memberId": "2457777",
       "roundId": "499a",
-      "score": 55
+      "score": 70
     },
     {
       "id": "4aa5",
       "memberId": "2457840",
       "roundId": "499a",
-      "score": 55
+      "score": 70
     },
     {
       "id": "5eed",

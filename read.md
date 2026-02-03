@@ -141,7 +141,7 @@ npm start
 
 Admin credentials (dev):
 - Email: `admin`
-- Password: `admin@123`
+- Password: `admin@001`
 
 ---
 

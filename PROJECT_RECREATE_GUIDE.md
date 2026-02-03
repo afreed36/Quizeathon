@@ -124,7 +124,7 @@ Example snippet:
    - This ordering ensures admin edits (member scores) take precedence and are visible immediately.
 
 3. Admin mode / Host controls
-   - Toggle `Host Mode` via the button in `App.js`. The authentication modal uses a built-in credential check (email: `admin`, password: `admin@123`).
+  - Toggle `Host Mode` via the button in `App.js`. The authentication modal uses a built-in credential check (email: `admin`, password: `admin@001`).
    - Host controls (component `HostControls`) expose: Add Team, Add Quiz, Add Day.
    - In Host mode, score cells are inputs (type=number, step=1). When editing:
      - If server is online, `updateScore` PATCHes or POSTs to json-server to update `scores` records.
@@ -208,7 +208,7 @@ npm start
 
 10) Admin credentials (built-in dev auth)
 - Username: `admin`
-- Password: `admin@123`
+ - Password: `admin@001`
 
 ---
 
