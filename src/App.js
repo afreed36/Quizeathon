@@ -10,7 +10,8 @@ import seedData from './data/seed.json';
 import teamRoundOverrides from './data/teamRoundOverrides';
 // Allow overriding API base for deployed environments (e.g., Render)
 // In production, use the same origin to fetch from /db.json
-const API_BASE = process.env.REACT_APP_API_URL || (process.env.NODE_ENV === 'production' ? window.location.origin : 'http://localhost:3001');
+// Default to a local API server on port 4000 (Express + MongoDB server we'll add under /server)
+const API_BASE = process.env.REACT_APP_API_URL || (process.env.NODE_ENV === 'production' ? window.location.origin : 'http://localhost:4000');
 
 function AppContent() {
   const [data, setData] = useState({ teams: [], days: [], quizzes: [], rounds: [], scores: [] });

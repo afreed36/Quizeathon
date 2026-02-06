@@ -6,3 +6,5 @@ dist/
 *.log
 coverage/
 .idea/
+build/
+public/db.json
