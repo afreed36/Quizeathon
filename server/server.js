@@ -396,4 +396,23 @@ if (!fileMode) {
 
 app.get('/', (req, res) => res.send('LiveDashBoard API running'));
 
+// Health endpoint to help debugging connectivity and file-backed state
+app.get('/health', (req, res) => {
+  try {
+    const info = { mode: fileMode ? 'file' : 'mongo', uptime: process.uptime() };
+    if (fileMode) {
+      try {
+        const stat = fs.statSync(DB_JSON_PATH);
+        info.dbPath = DB_JSON_PATH;
+        info.dbMtime = stat.mtime;
+      } catch (e) {
+        info.dbError = String(e.message || e);
+      }
+    }
+    res.json({ status: 'ok', info });
+  } catch (err) {
+    res.status(500).json({ status: 'error', error: String(err.message || err) });
+  }
+});
+
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
