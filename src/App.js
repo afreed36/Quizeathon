@@ -9,7 +9,9 @@ import { ThemeProvider, useTheme } from './contexts/ThemeContext';
 import seedData from './data/seed.json';
 import teamRoundOverrides from './data/teamRoundOverrides';
 // Allow overriding API base for deployed environments (e.g., Render)
-const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+// In production, use the same origin to fetch from /db.json
+// Default to a local API server on port 4000 (Express + MongoDB server we'll add under /server)
+const API_BASE = process.env.REACT_APP_API_URL || (process.env.NODE_ENV === 'production' ? window.location.origin : 'http://localhost:4000');
 
 function AppContent() {
   const [data, setData] = useState({ teams: [], days: [], quizzes: [], rounds: [], scores: [] });
@@ -36,47 +38,67 @@ function AppContent() {
   }, [hostMode]);
 
   const fetchData = async () => {
-    try {
-      // Try primary API (json-server)
-      const [teamsRes, daysRes, quizzesRes, roundsRes, scoresRes] = await Promise.all([
-        axios.get(`${API_BASE}/teams`),
-        axios.get(`${API_BASE}/days`),
-        axios.get(`${API_BASE}/quizzes`),
-        axios.get(`${API_BASE}/rounds`),
-        axios.get(`${API_BASE}/scores`),
-      ]);
-      setData({
-        teams: teamsRes.data,
-        days: daysRes.data,
-        quizzes: quizzesRes.data,
-        rounds: roundsRes.data,
-        scores: scoresRes.data,
-      });
-      setServerOnline(true);
-    } catch (error) {
-      console.warn('Primary API fetch failed, falling back to public/db.json:', error?.message || error);
-      // Fallback to static file served by React dev server
+    if (process.env.NODE_ENV === 'production') {
+      // In production, directly use the static /db.json file
       try {
         const res = await axios.get('/db.json');
         const { teams = [], days = [], quizzes = [], rounds = [], scores = [] } = res.data || {};
-        // If fallback returned empty arrays, use embedded seed as last resort
-  let finalData = null;
         if ((teams.length + days.length + quizzes.length + rounds.length + scores.length) === 0) {
-          finalData = seedData;
-          toast('Server unreachable — using embedded data', { icon: '⚠️' });
+          setData(seedData);
+          toast('Using embedded data', { icon: '⚠️' });
         } else {
-          finalData = { teams, days, quizzes, rounds, scores };
-          toast('Server unreachable — showing snapshot', { icon: '⚠️' });
+          setData({ teams, days, quizzes, rounds, scores });
         }
-        setData(finalData);
         setServerOnline(false);
-      } catch (fallbackErr) {
-        console.error('Fallback fetch failed:', fallbackErr);
-        // Last-resort embedded seed ensures UI renders
-        let finalData = seedData;
-        setData(finalData);
+      } catch (error) {
+        console.error('Failed to load /db.json:', error);
+        setData(seedData);
         setServerOnline(false);
-        toast('Server unreachable — using embedded data', { icon: '⚠️' });
+        toast('Using embedded data', { icon: '⚠️' });
+      }
+    } else {
+      // In development, try json-server first
+      try {
+        const [teamsRes, daysRes, quizzesRes, roundsRes, scoresRes] = await Promise.all([
+          axios.get(`${API_BASE}/teams`),
+          axios.get(`${API_BASE}/days`),
+          axios.get(`${API_BASE}/quizzes`),
+          axios.get(`${API_BASE}/rounds`),
+          axios.get(`${API_BASE}/scores`),
+        ]);
+        setData({
+          teams: teamsRes.data,
+          days: daysRes.data,
+          quizzes: quizzesRes.data,
+          rounds: roundsRes.data,
+          scores: scoresRes.data,
+        });
+        setServerOnline(true);
+      } catch (error) {
+        console.warn('Primary API fetch failed, falling back to public/db.json:', error?.message || error);
+        // Fallback to static file served by React dev server
+        try {
+          const res = await axios.get('/db.json');
+          const { teams = [], days = [], quizzes = [], rounds = [], scores = [] } = res.data || {};
+          // If fallback returned empty arrays, use embedded seed as last resort
+    let finalData = null;
+          if ((teams.length + days.length + quizzes.length + rounds.length + scores.length) === 0) {
+            finalData = seedData;
+            toast('Server unreachable — using embedded data', { icon: '⚠️' });
+          } else {
+            finalData = { teams, days, quizzes, rounds, scores };
+            toast('Server unreachable — showing snapshot', { icon: '⚠️' });
+          }
+          setData(finalData);
+          setServerOnline(false);
+        } catch (fallbackErr) {
+          console.error('Fallback fetch failed:', fallbackErr);
+          // Last-resort embedded seed ensures UI renders
+          let finalData = seedData;
+          setData(finalData);
+          setServerOnline(false);
+          toast('Server unreachable — using embedded data', { icon: '⚠️' });
+        }
       }
     }
   };

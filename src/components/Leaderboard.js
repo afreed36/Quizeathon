@@ -406,7 +406,7 @@ const Leaderboard = ({ data, hostMode, updateData, theme, serverOnline, refreshD
         <thead>
           <tr className={`border-b ${theme.colors.border}`}>
             <th className={`hidden md:table-cell md:sticky md:left-0 md:z-50 md:w-16 md:min-w-16 px-2 md:px-4 py-2 md:py-3 text-left text-xs uppercase tracking-wider ${theme.colors.muted} ${theme.colors.background} md:border-r ${theme.colors.border}`}>Rank</th>
-            <th className={`sticky left-16 z-40 w-48 min-w-32 px-2 md:px-4 py-2 md:py-3 text-left text-xs uppercase tracking-wider ${theme.colors.muted} ${theme.colors.background} border-r ${theme.colors.border}`}>Team</th>
+            <th className={`md:sticky md:left-16 z-40 w-48 min-w-32 px-2 md:px-4 py-2 md:py-3 text-left text-xs uppercase tracking-wider ${theme.colors.muted} ${theme.colors.background} border-r ${theme.colors.border}`}>Team</th>
             <th className={`hidden md:table-cell md:sticky md:left-64 md:z-30 md:w-32 md:min-w-32 px-2 md:px-4 py-2 md:py-3 text-left text-xs uppercase tracking-wider ${theme.colors.muted} ${theme.colors.background} md:border-r ${theme.colors.border}`}>Average</th>
             <th className={`hidden md:table-cell md:sticky md:left-96 md:z-20 md:w-32 md:min-w-32 px-2 md:px-4 py-2 md:py-3 text-left text-xs uppercase tracking-wider ${theme.colors.muted} ${theme.colors.background} md:border-r-2 ${theme.colors.border}`}>Total</th>
             {data.days.map(day => (
@@ -558,8 +558,8 @@ const Leaderboard = ({ data, hostMode, updateData, theme, serverOnline, refreshD
                   className={`border-b ${theme.colors.border} cursor-pointer`}
                   onClick={() => toggleTeamExpansion(team.id)}
                 >
-                  <td className={`sticky left-0 z-50 w-16 min-w-16 px-4 py-2 ${theme.colors.background} border-r ${theme.colors.border}`}>{index + 1}</td>
-                  <td className={`sticky left-16 z-40 w-48 min-w-48 px-4 py-2 flex items-center ${theme.colors.background} border-r ${theme.colors.border} overflow-visible`}>
+                  <td className={`md:sticky md:left-0 z-50 w-16 min-w-16 px-4 py-2 ${theme.colors.background} border-r ${theme.colors.border}`}>{index + 1}</td>
+                  <td className={`md:sticky md:left-16 z-40 w-48 min-w-48 px-4 py-2 flex items-center ${theme.colors.background} border-r ${theme.colors.border} overflow-visible`}>
                     <img src={team.teammates[0]?.avatar} alt="avatar" className="w-8 h-8 rounded-full mr-2" />
                     {editingTeamId === team.id ? (
                       <div className="flex items-start space-x-2 w-full">
@@ -631,8 +631,8 @@ const Leaderboard = ({ data, hostMode, updateData, theme, serverOnline, refreshD
                       </div>
                     )}
                   </td>
-                  <td className={`sticky left-64 z-30 w-32 min-w-32 px-4 py-2 font-bold text-yellow-400 ${theme.colors.background} border-r ${theme.colors.border}`}>{team.average}</td>
-                  <td className={`sticky left-96 z-20 w-32 min-w-32 px-4 py-2 font-bold text-yellow-400 border-r-2 ${theme.colors.border} ${theme.colors.background}`}>{team.totalScore}</td>
+                  <td className={`md:sticky md:left-64 z-30 w-32 min-w-32 px-4 py-2 font-bold text-yellow-400 ${theme.colors.background} border-r ${theme.colors.border}`}>{team.average}</td>
+                  <td className={`md:sticky md:left-96 z-20 w-32 min-w-32 px-4 py-2 font-bold text-yellow-400 border-r-2 ${theme.colors.border} ${theme.colors.background}`}>{team.totalScore}</td>
                   {data.rounds.map(round => {
                     const key = `${team.id}-${round.id}`;
                     const currentValue = editingValues[key] !== undefined ? editingValues[key] : (getScoreForRound(team.id, round.id) === '-' ? '' : getScoreForRound(team.id, round.id));

@@ -1,39 +1,29 @@
 {
   "days": [
     {
-      "id": "1",
+      "id": 1,
       "name": "Day 1",
-      "date": "2026-01-27"
+      "date": "2026-01-05"
     },
     {
-      "id": "2",
+      "id": 2,
       "name": "Day 2",
-      "date": "2026-02-28"
+      "date": "2026-02-01"
     },
     {
       "id": "5885",
       "name": "Day 3",
       "date": "2026-02-02"
-    },
-    {
-      "id": "e659",
-      "name": "Day4",
-      "date": "2026-02-03"
-    },
-    {
-      "id": "be1c",
-      "name": "Day 5",
-      "date": "2026-02-05"
     }
   ],
   "quizzes": [
     {
-      "id": "1",
-      "name": "OOPS",
+      "id": 1,
+      "name": "OOPs",
       "dayId": 1
     },
     {
-      "id": "2",
+      "id": 2,
       "name": "Collections",
       "dayId": 1
     },
